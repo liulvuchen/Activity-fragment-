@@ -1,0 +1,26 @@
+1、activity 中：
+
+每次切换的时候，Fragment都会重新实例化，重新加载一边数据，这样非常消耗性能和用户的数据流量
+
+FragmentTransaction ft = getSupportFragmentManager()
+                    .beginTransaction();
+					
+			replace()方法来替换Fragment
+            ft.replace(R.id.fragment/* 要replace的容器 */,
+                    new TS_Fragment_manage());
+			
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            
+			ft.addToBackStack(null);//点击返回，会返回上一次的fragment
+			
+            ft.commit();// 最后再提交
+			
+2、fragment 中：
+
+@Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        View rootView = inflater.inflate(R.layout.dailyfitnessfragment, container, false);
+
+        return rootView;
+    }

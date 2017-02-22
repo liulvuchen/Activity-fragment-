@@ -1,0 +1,60 @@
+1、activity 中：
+
+@@@@方法调用
+
+	//主要放入点击事件中
+	showFragment(1);
+	
+@@@@两个方法
+	
+	//隐藏的方法
+    public void hideFragment(FragmentTransaction ft) {
+        //如果不为空，就先隐藏起来
+        if (chartSummaryFragment != null) {
+            ft.hide(chartSummaryFragment);
+        }
+        if (healthDataFragment != null) {
+            ft.hide(healthDataFragment);
+        }
+    }
+	
+	//显示fragment
+    public void showFragment(int index){
+
+		//初始化
+        FragmentTransaction ft = getSupportFragmentManager()
+                .beginTransaction();
+        
+		//显示之前隐藏所有（隐藏所有要跳转的fragment）
+		hideFragment(ft);
+
+        //注意这里设置的位置应用于屏幕旋转
+        position = index;
+
+        switch (index){
+		
+			//第一个fragment
+            case 1:
+                if (chartSummaryFragment == null) {
+                    chartSummaryFragment = ChartSummaryFragment.newInstance();
+                    ft.add(R.id.fl_four, chartSummaryFragment);
+                } else {
+                    ft.show(chartSummaryFragment);
+                }
+                break;
+				
+			//第二个fragment
+            case 2:
+                if (healthDataFragment == null) {
+                    healthDataFragment = HealthDataFragment.newInstance();
+                    ft.add(R.id.fl_four, healthDataFragment);
+                } else {
+                    ft.show(healthDataFragment);
+                }
+                break;
+        }
+
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+		//ft.addToBackStack(null);//点击返回，会返回上一次的fragment
+        ft.commitAllowingStateLoss();// 最后再提交
+    }
